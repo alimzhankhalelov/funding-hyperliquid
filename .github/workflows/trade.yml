@@ -1,5 +1,8 @@
 name: Hourly Trading Bot
 
+permissions:
+  contents: write
+
 on:
   schedule:
     # Run at :55 every hour (UTC)
@@ -10,18 +13,40 @@ jobs:
   run:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+          fetch-depth: 0
+
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.9'
+
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-      - name: Run strategy
+
+      - name: Run strategy (append to history.csv)
         run: python main.py
         env:
-          # Add any secrets here via Settings → Secrets
-          # Example: HL_API_KEY: ${{ secrets.HL_API_KEY }}
-          OUTPUT_CSV: results.csv
+          # The script writes to OUTPUT_CSV; set to history.csv for persistent log
+          OUTPUT_CSV: history.csv
+
+      - name: Commit and push history.csv back to repo
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          # Ensure file is tracked
+          git add history.csv || true
+          # If there are staged changes, commit and push
+          if git diff --staged --quiet; then
+            echo "No changes to history.csv"
+          else
+            git commit -m "Update history.csv from workflow run $GITHUB_RUN_NUMBER ($GITHUB_RUN_ID)"
+            git push
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
