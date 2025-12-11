@@ -8,10 +8,7 @@ on:
     # Run at :55 every hour (UTC)
     - cron: '55 * * * *'
   workflow_dispatch:
-  # Temporary: allow triggering by committing/updating `run-now.txt` to main
-  push:
-    paths:
-      - 'run-now.txt'
+  # Triggers: scheduled run at :55 UTC and manual dispatch only
 
 jobs:
   run:
