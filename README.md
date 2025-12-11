@@ -1,0 +1,2 @@
+# funding-hyperliquid
+funding-hyperliquid
