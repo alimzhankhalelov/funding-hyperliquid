@@ -130,6 +130,9 @@ def main():
     df.to_csv(out_file, mode='a', header=header, index=False)
     print(f"Logged result to {out_file}")
 
+    # This script uses only public data from Hyperliquid's Info API
+    # and performs offline simulation / logging. No API keys are required.
+
 
 if __name__ == '__main__':
     main()

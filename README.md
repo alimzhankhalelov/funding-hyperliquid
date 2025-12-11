@@ -23,7 +23,7 @@ python main.py
 
 GitHub Actions
 - The repository includes an example workflow at `.github/workflows/trade.yml` that runs hourly (UTC :55).
-- Add any API keys / secrets at GitHub → Settings → Secrets and variables → Actions. Do NOT commit secrets in the repo.
+- No API keys are required for this script because it uses Hyperliquid's public Info API (`https://api.hyperliquid.xyz/info`).
 
 Notes & safety
 - This project is a simulation only — it does NOT place live orders.
@@ -31,7 +31,4 @@ Notes & safety
 - Results are appended to `results.csv` by default. You can change this via the `OUTPUT_CSV` env var.
 
 Next steps
-- If you want, I can commit and push these files to the remote repository and/or open a pull request.
-
-Contact
-- If you want further automation (real trading hooks, order signing, retries, alerts), tell me which exchange/API keys you'd use and I can scaffold it.
+- If you want, I can commit and push additional changes or add optional real-trading scaffolding (kept separate and disabled by default).
